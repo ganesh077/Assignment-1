@@ -1,23 +1,20 @@
-output "law_name" {
-  description = "The name of the Log Analytics workspace."
-  value       = azurerm_log_analytics_workspace.law.name
+output "log_analytics_workspace_name" {
+  value       = azurerm_log_analytics_workspace.workspace.name
+  description = "The name of the created log analytics workspace"
 }
 
-output "rsv_name" {
-  description = "The name of the Recovery Services vault."
-  value       = azurerm_recovery_services_vault.rsv.name
+output "recovery_services_vault_name" {
+  value       = azurerm_recovery_services_vault.vault.name
+  description = "The name of the created recovery services vault"
 }
 
-output "sa_name" {
-  description = "The name of the storage account."
-  value       = azurerm_storage_account.sa.name
+output "storage_account_name" {
+  value       = azurerm_storage_account.storage_account.name
+  description = "The name of the created storage account"
 }
 
-output "log_analytics_workspace_id" {
-  value = azurerm_log_analytics_workspace.log_analytics_workspace.id
+output "storage_account_primary_blob_endpoint" {
+  value       = azurerm_storage_account.storage_account.primary_blob_endpoint
+  description = "The primary blob endpoint of the created storage account"
 }
 
-
-output "log_analytics_workspace_resource_id" {
-  value = azurerm_log_analytics_workspace.log_analytics_workspace.id
-}

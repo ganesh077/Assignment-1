@@ -1,35 +1,19 @@
-variable "vnet_name" {
-  description = "The name of the virtual network."
+variable "resource_group_name" {
   type        = string
-}
-
-variable "vnet_address_space" {
-  description = "The address space of the virtual network."
-  type        = list(string)
-}
-
-variable "subnet_name" {
-  description = "The name of the subnet."
-  type        = string
-}
-
-variable "subnet_address_prefixes" {
-  description = "The address prefixes of the subnet."
-  type        = list(string)
+  description = "Resource group where the virtual network and subnet should be created"
 }
 
 variable "location" {
-  description = "The location of the virtual network and subnet."
   type        = string
+  description = "Azure region where the virtual network and subnet should be created"
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group."
+variable "humber_id" {
   type        = string
+  description = "Humber ID to be used for creating unique resource names"
 }
 
-variable "subnet_id" {}
-
-variable "dns_zone" {
-  type = string
+variable "tags" {
+  type        = map(string)
+  description = "Tags to be applied to the virtual network and subnet"
 }

@@ -1,18 +1,21 @@
-resource "azurerm_managed_disk" "datadisk" {
-  count               = var.disk_count * length(var.vm_names)
-  name                = "${var.resource_group_name}-datadisk-${count.index + 1}"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  storage_account_type = "Standard_LRS"
-  disk_size_gb        = var.disk_size_gb
-  create_option        = "Empty"
-  tags = var.tags
+locals {
+  disk_count = length(var.vm_ids)
 }
 
-resource "azurerm_virtual_machine_data_disk_attachment" "datadisk" {
-  count = var.disk_count * length(var.vm_names)
+resource "azurerm_managed_disk" "data_disk" {
+  count                = local.disk_count
+  name                 = "${var.humber_id}-data-disk-${count.index + 1}"
+  location             = var.location
+  resource_group_name  = var.resource_group_name
+  storage_account_type = "Standard_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = 10
+}
 
-  managed_disk_id      = element(azurerm_managed_disk.datadisk.*.id, count.index)
-  virtual_machine_id   = element(var.vm_ids, count.index / var.disk_count)
-  lun                  = count.index % var.disk_count
+resource "azurerm_virtual_machine_data_disk_attachment" "data_disk_attachment" {
+  count          = local.disk_count
+  virtual_machine_id = var.vm_ids[count.index]
+  managed_disk_id    = azurerm_managed_disk.data_disk[count.index].id
+  lun                = 1
+  caching            = "None"
 }

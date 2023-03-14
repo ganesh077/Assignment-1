@@ -1,17 +1,19 @@
-output "vnet_name" {
-  description = "The name of the virtual network."
+output "virtual_network_name" {
   value       = azurerm_virtual_network.vnet.name
+  description = "The name of the created virtual network"
 }
 
 output "subnet_name" {
-  description = "The name of the subnet."
   value       = azurerm_subnet.subnet.name
+  description = "The name of the created subnet"
 }
 
 output "subnet_id" {
-  value = azurerm_subnet.subnet.id
+  value       = azurerm_subnet.subnet.id
+  description = "The ID of the created subnet"
 }
 
-output "dns_zone" {
-  value = azurerm_dns_zone.dns_zone.name
+output "vnet_name" {
+  value       = azurerm_virtual_network.vnet.name
+  description = "The name of the created virtual network"
 }

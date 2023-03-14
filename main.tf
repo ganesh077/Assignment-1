@@ -1,78 +1,102 @@
-
-
 module "rgroup" {
-  source = "./rgroup"
-  name   = "N01469295-assignment1-RG"
-  location = "eastus"
+  source     = "./rgroup"
+  humber_id  = "n9295"
+  location   = "East US" # Replace with the desired Azure region
+  tags = {
+    Project        = "Automation Project – Assignment 1"
+    Name           = "Ganesh.Thampi"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 module "network" {
-  source                = "./network"
-  vnet_name             = "N01469295-vnet"
-  vnet_address_space    = ["10.0.0.0/16"]
-  subnet_name           = "N01469295-subnet"
-  subnet_address_prefixes = ["10.0.1.0/24"]
-  location              = "eastus"
-  subnet_id = module.network.subnet_id
-  resource_group_name   = module.rgroup.rg_name
-  dns_zone        = "N01469295-assignment1.com"
+  source             = "./network"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  tags = {
+    Project        = "Automation Project – Assignment 1"
+    Name           = "Ganesh.Thampi"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 module "common" {
-  source              = "./common"
-  law_name            = "N01469295-law"
-  rsv_name            = "N01469295-rsv"
-  sa_name             = "n01469295commonsa"
-  location            = "eastus"
-  resource_group_name = module.rgroup.rg_name
+  source             = "./common"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  tags = {
+    Project        = "Automation Project – Assignment 1"
+    Name           = "Ganesh.Thampi"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
 
 module "vmlinux" {
-source  = "./vmlinux"
-  vm_count = 2
-
-  subnet_id                      = module.network.subnet_id
-  location                       = "eastus"
-  resource_group_name            = module.rgroup.rg_name
-  admin_username                 = "Ganesh"
-  custom_data                    = "#cloud-config\nhostname: N01469295-linux-1\nfqdn: N01469295-linux-1.eastus.cloudapp.azure.com\n"
+  source             = "./vmlinux"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  subnet_id          = module.network.subnet_id
+  storage_account_primary_blob_endpoint = module.common.storage_account_primary_blob_endpoint
   ssh_key                        = "C:\\Users\\ganes\\.ssh\\id_rsa.pub"
   ssh_private_key                = "C:\\Users\\ganes\\.ssh\\id_rsa"
-  log_analytics_workspace_id     = module.common.log_analytics_workspace_id
-  log_analytics_workspace_resource_id = module.common.log_analytics_workspace_resource_id
+  admin_username                 = "Ganesh"
+  tags = {
+    Project        = "Automation Project – Assignment 1"
+    Name           = "Ganesh.Thampi"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
+  }
 }
+
 
 module "vmwindows" {
-  source                = "./vmwindows"
-  resource_prefix       = "N01469295-vmwindows"
-  location              = "eastus"
-  resource_group_name   = module.rgroup.rg_name
-  subnet_id             = module.network.subnet_id
-  vm_size               = "Standard_B1ms"
-  admin_username        = "Ganesh"
-  admin_password        = "P@ssw0rd1234"
-  domain_name_label     = "mywinsvm"
-  dns_zone              = "mydomain.com"
-  tags                  = {
-    Project         = "Automation Project - Assignment 1"
-    Name            = "Ganesh.Thampi"
-    ExpirationDate  = "2023-06-30"
-    Environment     = "Lab"
+  source             = "./vmwindows"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  subnet_id          = module.network.subnet_id
+  storage_account_primary_blob_endpoint = module.common.storage_account_primary_blob_endpoint
+  tags = {
+    Project        = "Automation Project – Assignment 1"
+    Name           = "Ganesh.Thampi"
+    ExpirationDate = "2023-06-30"
+    Environment    = "Lab"
   }
 }
-
 
 module "datadisk" {
-  source              = "./datadisk"
-  location            = "eastus"
-  resource_group_name = module.rgroup.rg_name
-  vm_names            = ["N01469295-linux-1", "N01469295-linux-2", "windows-vm"]
-  tags                  = {
-    Project         = "Automation Project - Assignment 1"
-    Name            = "Ganesh.Thampi"
-    ExpirationDate  = "2023-06-30"
-    Environment     = "Lab"
-  }
+  source             = "./datadisk"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  vm_ids = module.vmlinux.vm_ids
+  
 }
+
+module "loadbalancer" {
+  source             = "./loadbalancer"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+  public_ip_address_ids = module.vmlinux.public_ip_address_ids
+  linux_vm_nic_ids   = module.vmlinux.vm_nic_ids
+  
+}
+
+module "database" {
+  source             = "./database"
+  humber_id          = "n9295"
+  resource_group_name = module.rgroup.resource_group_name
+  location           = "East US" # Replace with the desired Azure region
+}
+
+
+
 
 

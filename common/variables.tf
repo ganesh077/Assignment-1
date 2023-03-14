@@ -1,29 +1,19 @@
-variable "law_name" {
-  description = "The name of the Log Analytics workspace."
+variable "resource_group_name" {
   type        = string
-}
-
-variable "rsv_name" {
-  description = "The name of the Recovery Services vault."
-  type        = string
-}
-
-variable "sa_name" {
-  description = "The name of the storage account."
-  type        = string
+  description = "Resource group where the resources should be created"
 }
 
 variable "location" {
-  description = "The location of the resources."
   type        = string
+  description = "Azure region where the resources should be created"
 }
 
-variable "resource_group_name" {
-  description = "The name of the resource group."
+variable "humber_id" {
   type        = string
+  description = "Humber ID to be used for creating unique resource names"
 }
 
-variable "key_name" {
-  type    = string
-  default = "mykey"
+variable "tags" {
+  type        = map(string)
+  description = "Tags to be applied to the resources"
 }

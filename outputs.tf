@@ -1,65 +1,60 @@
 output "resource_group_name" {
-  value = module.rgroup.rg_name
+  value       = module.rgroup.resource_group_name
+  description = "Resource group created by the 'rgroup' module"
 }
 
-output "virtual_network_name" {
-  value = module.network.vnet_name
+output "vnet_name" {
+  value       = module.network.vnet_name
+  description = "Virtual network created by the 'network' module"
 }
 
 output "subnet_name" {
-  value = module.network.subnet_name
+  value       = module.network.subnet_name
+  description = "Subnet created by the 'network' module"
 }
 
 output "log_analytics_workspace_name" {
-  value = module.common.law_name
+  value       = module.common.log_analytics_workspace_name
+  description = "Log analytics workspace created by the 'common' module"
 }
 
 output "recovery_services_vault_name" {
-  value = module.common.rsv_name
+  value       = module.common.recovery_services_vault_name
+  description = "Recovery services vault created by the 'common' module"
 }
 
 output "storage_account_name" {
-  value = module.common.sa_name
+  value       = module.common.storage_account_name
+  description = "Storage account created by the 'common' module"
 }
 
-output "vm_hostnames" {
-  value = module.vmlinux.vm_hostnames
+output "linux_vm_details" {
+  value = {
+    hostnames      = module.vmlinux.vm_hostnames
+    domain_names   = module.vmlinux.vm_domain_names
+    private_ips    = module.vmlinux.vm_private_ips
+    public_ips     = module.vmlinux.vm_public_ips
+  }
+  description = "Details of the Linux VMs created by the 'vmlinux' module"
 }
 
-output "vm_private_ips" {
-  value = module.vmlinux.vm_private_ips
+output "windows_vm_details" {
+  value = {
+    hostname       = module.vmwindows.vm_hostname
+    domain_name    = module.vmwindows.vm_domain_name
+    private_ip     = module.vmwindows.vm_private_ip
+    public_ip      = module.vmwindows.vm_public_ip
+  }
+  sensitive = true
+  description = "Details of the Windows VM created by the 'vmwindows' module"
 }
 
-output "vm_public_ips" {
-  value = module.vmlinux.vm_public_ips
+output "loadbalancer_name" {
+  value       = module.loadbalancer.loadbalancer_name
+  description = "The name of the created load balancer"
 }
 
-output "vm_domain_names" {
-  value = module.vmlinux.vm_domain_names
-}
-
-output "vmwindows_hostname" {
-  value = module.vmwindows.vmwindows_hostname
-}
-
-output "vmwindows_domain_name" {
-  value = module.vmwindows.vmwindows_domain_name
-}
-
-output "vmwindows_private_ip_address" {
-  value = module.vmwindows.vmwindows_private_ip_address
-}
-
-output "vmwindows_public_ip_address" {
-  value = module.vmwindows.vmwindows_public_ip_address
-}
-
-output "datadisk_managed_disk_ids" {
-  description = "The IDs of the managed disks that were created for the data disks."
-  value       = module.datadisk.managed_disk_ids
-}
-
-output "datadisk_vm_data_disk_attachments" {
-  description = "The data disk attachments for each virtual machine."
-  value       = module.datadisk.virtual_machine_data_disk_attachments
+output "postgresql_instance_name" {
+  value       = module.database.postgresql_instance_name
+  description = "The name of the created PostgreSQL instance"
 }

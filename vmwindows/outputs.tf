@@ -1,15 +1,19 @@
-output "vmwindows_hostname" {
-  value = azurerm_virtual_machine.vmwindows.name
+output "vm_hostname" {
+  value = join("", [for profile in azurerm_virtual_machine.vm.os_profile : profile.computer_name])
 }
 
-output "vmwindows_domain_name" {
-  value = "${azurerm_virtual_machine.vmwindows.name}.${var.domain_name_label}.${var.dns_zone}"
+
+output "vm_domain_name" {
+  value       = azurerm_public_ip.pip.domain_name_label
+  description = "The domain name of the created Windows VM"
 }
 
-output "vmwindows_private_ip_address" {
-  value = azurerm_network_interface.vmwindows_nic.private_ip_address
+output "vm_private_ip" {
+  value       = azurerm_network_interface.nic.ip_configuration[0].private_ip_address
+  description = "The private IP address of the created Windows VM"
 }
 
-output "vmwindows_public_ip_address" {
-  value = azurerm_public_ip.vmwindows_public_ip.ip_address
+output "vm_public_ip" {
+  value       = azurerm_public_ip.pip.ip_address
+  description = "The public IP address of the created Windows VM"
 }

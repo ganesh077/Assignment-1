@@ -1,9 +1,14 @@
-variable "name" {
-  description = "The name of the resource group."
+variable "humber_id" {
   type        = string
+  description = "Humber ID to be used for creating unique resource group name"
 }
 
 variable "location" {
-  description = "The location of the resource group."
   type        = string
+  description = "Azure region where the resource group should be created"
+}
+
+variable "tags" {
+  type        = map(string)
+  description = "Tags to be applied to the resource group"
 }
