@@ -11,7 +11,7 @@ resource "azurerm_postgresql_server" "postgresql_server" {
   auto_grow_enabled = false
 
   administrator_login          = "postgres"
-  administrator_login_password = "HumberID-Admin-Password123!" # Replace with a secure password
+  administrator_login_password = "HumberID-Admin-Password123!"
 
   version = "9.6"
   ssl_enforcement_enabled = true
